@@ -7,18 +7,18 @@ from crewai_tools import SerperDevTool
 class LinkedinArchitect():
     """LinkedinArchitect crew"""
 
-    def __init__(self) -> None:
-        # Detect if running in Streamlit Cloud production environment
+    def get_llm(self) -> LLM:
+        """Dynamically fetch the right LLM depending on the deployment environment"""
         if os.environ.get("STREAMLIT_RUNTIME_ENV") or os.environ.get("GROQ_API_KEY"):
-            # Production environment: High-speed cloud model via Groq API
-            self.llm = LLM(
+            # Production cloud runtime configuration
+            return LLM(
                 model="groq/llama3-70b-8192",
                 temperature=0.7,
                 api_key=os.environ.get("GROQ_API_KEY")
             )
         else:
-            # Local development environment: MacBook Pro local Ollama instance
-            self.llm = LLM(
+            # Local development runtime fallback
+            return LLM(
                 model="ollama/gemma4:latest",
                 base_url="http://localhost:11434"
             )
@@ -29,7 +29,7 @@ class LinkedinArchitect():
             config=self.agents_config['linkedin_analyst'],
             tools=[SerperDevTool()], 
             verbose=True,
-            llm=self.llm
+            llm=self.get_llm()  # Evaluated when CrewAI compiles the decorator metadata
         )
 
     @agent
@@ -37,7 +37,7 @@ class LinkedinArchitect():
         return Agent(
             config=self.agents_config['linkedin_ghostwriter'],
             verbose=True,
-            llm=self.llm
+            llm=self.get_llm()  # Evaluated when CrewAI compiles the decorator metadata
         )
 
     @task

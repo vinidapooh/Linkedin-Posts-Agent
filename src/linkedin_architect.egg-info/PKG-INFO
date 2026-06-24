@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: linkedin_architect
+Version: 0.1.0
+Summary: linkedin_architect using crewAI
+Author-email: Your Name <you@example.com>
+Requires-Python: <3.14,>=3.10
+Requires-Dist: crewai-tools>=1.14.3
+Requires-Dist: crewai[tools]==1.14.3
+Requires-Dist: duckduckgo-search>=8.1.1
+Requires-Dist: langchain-openai>=1.2.1
+Requires-Dist: streamlit>=1.57.0

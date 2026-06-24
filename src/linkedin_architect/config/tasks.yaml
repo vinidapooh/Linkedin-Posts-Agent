@@ -1,0 +1,20 @@
+research_task:
+  description: >
+    Search for the latest 2026 trends and debates in {topic}. 
+    Identify {frequency} unique angles that would specifically allow for a {tone} commentary.
+  expected_output: >
+    A list of {frequency} research briefs with facts, stats, and a suggested 'hook' angle. Also list out all the briefs in order of relevance and 'trendiness' on LinkedIn.
+  agent: linkedin_analyst
+
+writing_task:
+  description: >
+    Take the research and write {frequency} individual LinkedIn posts. 
+    CRITICAL: Every post must be written in a {tone} tone. No matter what the tone is, I want the presentation style to be simple, as if someone reading it for the first time can relate to it.
+    Format:
+    1. Hook (Line 1)
+    2. Context (2-3 lines with white space). Let's keep it under 150 words
+    3. The 'Insight' or 'Takeaway'
+    4. Call to Action (CTA)
+  expected_output: >
+    A collection of {frequency} LinkedIn posts in Markdown format.
+  agent: linkedin_ghostwriter

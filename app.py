@@ -1,8 +1,8 @@
 import streamlit as st
 import os
 import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 from datetime import datetime
-
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 from linkedin_architect.crew import LinkedinArchitect

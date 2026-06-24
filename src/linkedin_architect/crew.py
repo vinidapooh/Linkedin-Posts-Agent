@@ -54,9 +54,16 @@ class LinkedinArchitect():
 
     @crew
     def crew(self) -> Crew:
+        """Creates the LinkedinArchitect crew"""
+        # Fetch our environment-aware target LLM
+        target_llm = self.get_llm()
+        
         return Crew(
-            agents=self.agents,
-            tasks=self.tasks,
+            agents=[self.linkedin_analyst(), self.linkedin_ghostwriter()],
+            tasks=[self.research_task(), self.writing_task()],
             process=Process.sequential,
             verbose=True,
+            llm=target_llm,                  # Forces all sub-agents to use this LLM
+            manager_llm=target_llm,          # Forces orchestration to use this LLM
+            planning_llm=target_llm          # Disables OpenAI planning fallback
         )

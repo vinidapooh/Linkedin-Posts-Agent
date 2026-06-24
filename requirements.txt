@@ -68,7 +68,6 @@ langchain-core==1.3.2
 langchain-openai==1.2.1
 langchain-protocol==0.0.14
 langsmith==0.7.38
--e file:///Users/vinitpoojari/Documents/Linkedin%20Posts%20Agent/linkedin_architect
 linkify-it-py==2.1.0
 litellm==1.89.3
 lxml==6.1.0

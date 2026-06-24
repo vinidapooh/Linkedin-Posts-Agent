@@ -8,16 +8,14 @@ class LinkedinArchitect():
     """LinkedinArchitect crew"""
 
     def get_llm(self) -> LLM:
-        """Dynamically fetch the right LLM depending on the deployment environment"""
+        """Dynamically fetch the right LLM depending on the environment"""
         if os.environ.get("STREAMLIT_RUNTIME_ENV") or os.environ.get("GROQ_API_KEY"):
-            # Production cloud runtime configuration
             return LLM(
                 model="groq/llama3-70b-8192",
                 temperature=0.7,
                 api_key=os.environ.get("GROQ_API_KEY")
             )
         else:
-            # Local development runtime fallback
             return LLM(
                 model="ollama/gemma4:latest",
                 base_url="http://localhost:11434"
@@ -29,7 +27,7 @@ class LinkedinArchitect():
             config=self.agents_config['linkedin_analyst'],
             tools=[SerperDevTool()], 
             verbose=True,
-            llm=self.get_llm()  # Evaluated when CrewAI compiles the decorator metadata
+            llm=self.get_llm()
         )
 
     @agent
@@ -37,7 +35,7 @@ class LinkedinArchitect():
         return Agent(
             config=self.agents_config['linkedin_ghostwriter'],
             verbose=True,
-            llm=self.get_llm()  # Evaluated when CrewAI compiles the decorator metadata
+            llm=self.get_llm()
         )
 
     @task

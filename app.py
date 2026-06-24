@@ -3,8 +3,12 @@ import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 from datetime import datetime
+if os.environ.get("STREAMLIT_RUNTIME_ENV") or os.environ.get("GROQ_API_KEY"):
+    os.environ["OPENAI_API_BASE"] = "https://api.groq.com/openai/v1"
+    os.environ["OPENAI_MODEL_NAME"] = "llama3-70b-8192"
+    if os.environ.get("GROQ_API_KEY"):
+        os.environ["OPENAI_API_KEY"] = os.environ.get("GROQ_API_KEY")
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 from linkedin_architect.crew import LinkedinArchitect
 
 st.set_page_config(page_title="LinkedIn Architect", page_icon="🚀", layout="wide")

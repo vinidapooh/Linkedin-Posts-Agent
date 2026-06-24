@@ -5,21 +5,15 @@ from crewai_tools import SerperDevTool
 
 @CrewBase
 class LinkedinArchitect():
-    """LinkedinArchitect crew"""
+    """LinkedinArchitect crew running completely on OpenAI"""
 
-    def get_llm(self) -> LLM:
-        """Dynamically fetch the right LLM depending on the environment"""
-        if os.environ.get("STREAMLIT_RUNTIME_ENV") or os.environ.get("GROQ_API_KEY"):
-            return LLM(
-                model="groq/llama3-70b-8192",
-                temperature=0.7,
-                api_key=os.environ.get("GROQ_API_KEY")
-            )
-        else:
-            return LLM(
-                model="ollama/gemma4:latest",
-                base_url="http://localhost:11434"
-            )
+    def __init__(self) -> None:
+        # Heavily ground the primary LLM configuration into OpenAI
+        self.llm = LLM(
+            model="openai/gpt-4o-mini",
+            temperature=0.7,
+            api_key=os.environ.get("OPENAI_API_KEY")
+        )
 
     @agent
     def linkedin_analyst(self) -> Agent:
@@ -27,7 +21,7 @@ class LinkedinArchitect():
             config=self.agents_config['linkedin_analyst'],
             tools=[SerperDevTool()], 
             verbose=True,
-            llm=self.get_llm()
+            llm=self.llm
         )
 
     @agent
@@ -35,7 +29,7 @@ class LinkedinArchitect():
         return Agent(
             config=self.agents_config['linkedin_ghostwriter'],
             verbose=True,
-            llm=self.get_llm()
+            llm=self.llm
         )
 
     @task
@@ -54,16 +48,11 @@ class LinkedinArchitect():
 
     @crew
     def crew(self) -> Crew:
-        """Creates the LinkedinArchitect crew"""
-        # Fetch our environment-aware target LLM
-        target_llm = self.get_llm()
-        
         return Crew(
-            agents=[self.linkedin_analyst(), self.linkedin_ghostwriter()],
-            tasks=[self.research_task(), self.writing_task()],
+            agents=self.agents,
+            tasks=self.tasks,
             process=Process.sequential,
             verbose=True,
-            llm=target_llm,                  # Forces all sub-agents to use this LLM
-            manager_llm=target_llm,          # Forces orchestration to use this LLM
-            planning_llm=target_llm          # Disables OpenAI planning fallback
+            llm=self.llm,
+            manager_llm=self.llm
         )

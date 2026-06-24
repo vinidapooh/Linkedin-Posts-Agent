@@ -1,54 +1,18 @@
-# YoutubeArchitect Crew
+# 🚀 LinkedIn Content Architect Agentic Pipeline
 
-Welcome to the YoutubeArchitect Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+A production-ready Multi-Agent system engineered to automate industry trend analysis and high-engagement professional copy generation. Built using **CrewAI**, **Streamlit**, and integrated with local and cloud infrastructure.
 
-## Installation
+## 🏗️ System Architecture & Data Flow
 
-Ensure you have Python >=3.10 <3.14 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+The system runs as a decoupled state machine utilizing two specialized agent roles:
+1. **LinkedIn Trend & Topic Strategist:** Uses search engine APIs (`SerperDevTool`) to ingest live 2026 industry discussions, extracting key terminology banks and high-value technical themes.
+2. **Expert Professional Ghostwriter:** ingests processed trends and outputs scannable, mobile-optimized professional prose with strict constraint compliance (zero random hashtags, programmatic white-spacing).
 
-First, if you haven't already, install uv:
+## 🛠️ Tech Stack & Production Decisions
+- **Orchestration:** CrewAI (Sequential Process Management for highly dependable text outputs).
+- **Frontend / UI:** Streamlit (Pure Python dashboarding for high-velocity deployment).
+- **Environment Management:** `uv` (Fast dependency resolution and reproducible environments).
+- **Dynamic Compute Routing:**
+  - **Local Development:** Pulls context from a local `Ollama` instance running `gemma4:latest` locally on an Apple Silicon cluster.
+  - **Cloud Infrastructure:** Automatically switches context when deployed to target instances, routing execution to a cloud-hosted LLM wrapper via `Groq` API endpoints to optimize latency and eliminate cold-start lag.
 
-```bash
-pip install uv
-```
-
-Next, navigate to your project directory and install the dependencies:
-
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
-crewai install
-```
-### Customizing
-
-**Add your `OPENAI_API_KEY` into the `.env` file**
-
-- Modify `src/youtube_architect/config/agents.yaml` to define your agents
-- Modify `src/youtube_architect/config/tasks.yaml` to define your tasks
-- Modify `src/youtube_architect/crew.py` to add your own logic, tools and specific args
-- Modify `src/youtube_architect/main.py` to add custom inputs for your agents and tasks
-
-## Running the Project
-
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
-
-```bash
-$ crewai run
-```
-
-This command initializes the youtube_architect Crew, assembling the agents and assigning them tasks as defined in your configuration.
-
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
-
-## Understanding Your Crew
-
-The youtube_architect Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
-
-## Support
-
-For support, questions, or feedback regarding the YoutubeArchitect Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
-
-Let's create wonders together with the power and simplicity of crewAI.
